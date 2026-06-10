@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DROPLY" />
+  <meta name="theme-color" content="#080808" />
+  <meta name="description" content="DROPLY — Streaming musical sin anuncios" />
+
+  <title>DROPLY — Plataforma Multimedia</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png" />
+  <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png" />
+  <link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="droply-enhancements.css" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══ TOP BAR ══ -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <a href="#" class="logo">DROPLY MUSIC</a>
+      <div class="topbar-actions">
+        <button class="topbar-icon-btn" id="topbarSearchBtn" aria-label="Buscar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ TOAST CONTAINER ══ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ══ PAGES ══ -->
+  <div class="pages-container" id="pagesContainer">
+
+    <!-- PAGE: HOME -->
+    <div class="page active" id="pageHome">
+
+      <!-- ══ HOME CONTENT ══ -->
+      <div class="home-scroll" id="homeScroll">
+
+        <!-- 1. CONTINUE LISTENING -->
+        <section class="home-continue-section" id="homeContinueSection" style="display:none">
+          <div class="home-continue-card" id="homeContinueCard">
+            <div class="hcc-cover-wrap">
+              <img class="hcc-cover" id="hccCover" src="" alt="" />
+              <div class="hcc-cover-glow" id="hccGlow"></div>
+            </div>
+            <div class="hcc-info">
+              <p class="hcc-label">Continuar escuchando</p>
+              <h2 class="hcc-title" id="hccTitle">—</h2>
+              <p class="hcc-artist" id="hccArtist">—</p>
+              <div class="hcc-progress-wrap">
+                <div class="hcc-progress-bar">
+                  <div class="hcc-progress-fill" id="hccProgressFill" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+            <button class="hcc-play-btn" id="hccPlayBtn" aria-label="Reproducir">
+              <svg class="hcc-icon-play" viewBox="0 0 24 24" fill="currentColor" stroke="none" width="22" height="22"><polygon points="5,3 19,12 5,21"/></svg>
+              <svg class="hcc-icon-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none" width="22" height="22" style="display:none"><rect x="6" y="3" width="4" height="18"/><rect x="14" y="3" width="4" height="18"/></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- 2. QUICK ACCESS -->
+        <section class="home-section">
+          <div class="home-quick-grid">
+            <button class="home-quick-item" id="quickFavoritos" data-page="pageFavoritos">
+              <div class="home-quick-icon home-quick-icon--heart">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+              <span>Likes</span>
+            </button>
+            <button class="home-quick-item" id="quickPlaylists" data-page="pagePlaylists">
+              <div class="home-quick-icon home-quick-icon--list">
+                <svg viewBox="0 0 24 24" width="20" height="20"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              </div>
+              <span>Playlists</span>
+            </button>
+            <button class="home-quick-item" id="quickDownloads">
+              <div class="home-quick-icon home-quick-icon--dl">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <span>Descargas</span>
+            </button>
+            <button class="home-quick-item" id="quickHistory">
+              <div class="home-quick-icon home-quick-icon--hist">
+                <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+              </div>
+              <span>Buscar</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 3. YOUR PLAYLISTS -->
+        <section class="home-section" id="homePlSection" style="display:none">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Tus playlists</h2>
+            <button class="home-section-link" data-page="pagePlaylists">Ver todo</button>
+          </div>
+          <div class="home-hscroll-wrap">
+            <div class="home-hscroll" id="homePlGrid"></div>
+          </div>
+        </section>
+
+        <!-- 3b. MIXES -->
+        <section class="home-section" id="homeMixesSection">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Mixes</h2>
+            <button class="home-section-link" data-page="pageMixes">Ver todo</button>
+          </div>
+          <div class="home-hscroll-wrap">
+            <div class="home-hscroll home-mixes-row" id="homeMixesRow"></div>
+          </div>
+        </section>
+
+        <!-- 4. RECENTLY PLAYED -->
+        <section class="home-section" id="homeRecentSection" style="display:none">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Escuchado recientemente</h2>
+          </div>
+          <div class="home-hscroll-wrap">
+            <div class="home-hscroll" id="homeRecentGrid"></div>
+          </div>
+        </section>
+
+        <!-- 5. TOP ARTISTS -->
+        <section class="home-section" id="homeArtistsSection" style="display:none">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Artistas frecuentes</h2>
+          </div>
+          <div class="home-hscroll-wrap">
+            <div class="home-hscroll home-artists-row" id="homeArtistsGrid"></div>
+          </div>
+        </section>
+
+        <!-- 6. FEATURED — always visible -->
+        <section class="home-section" id="homeFeaturedSection">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Destacados para ti</h2>
+          </div>
+          <div class="home-hscroll-wrap">
+            <div class="home-hscroll" id="homeFeaturedGrid"></div>
+          </div>
+        </section>
+
+        <!-- 7. GENRES — hidden in home, visible in search -->
+        <section class="home-section" id="homeGenresSection" style="display:none" aria-hidden="true">
+          <div class="home-section-header">
+            <h2 class="home-section-title">Explorar géneros</h2>
+          </div>
+          <div class="genre-grid" id="homeGenreGrid"></div>
+        </section>
+
+        <!-- 8. EXPLORE (hidden grid section for category filtering, kept for JS compatibility) -->
+        <section class="home-section" id="homeExploreSection" style="display:none">
+          <div class="home-section-header">
+            <h2 class="home-section-title" id="sectionTitle">Destacados</h2>
+            <span class="count-badge" id="countBadge"></span>
+          </div>
+          <!-- Cat bar pills injected here when explore is active -->
+          <div class="cat-bar-inline" id="catBarInline">
+            <div class="cat-inner" id="catInner">
+              <button class="cat-pill active" data-cat="all">Todas</button>
+            </div>
+          </div>
+          <div class="media-grid" id="mediaGrid" style="padding:0"></div>
+        </section>
+
+        <!-- Bottom padding -->
+        <div style="height:1.5rem"></div>
+
+      </div><!-- /home-scroll -->
+
+      <!-- Hidden cat-bar (kept for JS refs) -->
+      <section class="cat-bar" id="catBar" style="display:none" aria-hidden="true">
+        <div class="cat-inner" id="catInnerLegacy"></div>
+      </section>
+
+      <!-- Hidden grid section wrapper (kept for JS refs) -->
+      <main class="grid-section" id="gridSection" style="display:none" aria-hidden="true"></main>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- PAGE: SEARCH -->
+    <div class="page" id="pageSearch">
+      <div class="search-page-header">
+        <h2 class="search-page-title">Buscar</h2>
+        <div class="search-page-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          <input type="text" id="searchInput" placeholder="Artistas, canciones, géneros…" class="search-page-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          <button class="search-clear-btn" id="searchClear" style="display:none">✕</button>
+        </div>
+      </div>
+      <div class="search-results-wrap">
+        <div id="searchBrowse" class="search-browse">
+          <p class="search-browse-label">Explorar géneros</p>
+          <div class="genre-grid" id="genreGrid"></div>
+        </div>
+        <div id="searchResults" class="search-results-list" style="display:none"></div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- PAGE: FAVORITOS -->
+    <div class="page" id="pageFavoritos">
+      <div class="library-header">
+        <h2 class="library-title">❤ Likes</h2>
+      </div>
+      <div class="library-list" id="favoritosList"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- PAGE: MIXES -->
+    <div class="page" id="pageMixes">
+      <div class="library-header mixes-page-header">
+        <h2 class="library-title">Mixes</h2>
+      </div>
+      <div id="mixesGrid" class="mixes-grid"></div>
+    </div>
+
+    <!-- PAGE: PLAYLISTS -->
+    <div class="page" id="pagePlaylists">
+      <div class="library-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+        <h2 class="library-title">Mis Playlists</h2>
+        <button class="btn-create-playlist" id="btnCreatePlaylist">
+          <svg viewBox="0 0 24 24" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nueva playlist
+        </button>
+      </div>
+      <div id="playlistsGrid" class="playlists-grid"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ══ PLAYLIST DETAIL PAGE (full-screen) ══ -->
+  <div class="playlist-page" id="playlistDetailModal">
+    <!-- Blurred bg -->
+    <div class="playlist-page-bg" id="playlistPageBg"></div>
+
+    <!-- Top bar -->
+    <div class="playlist-page-topbar">
+      <button class="playlist-page-back" id="playlistDetailClose" aria-label="Volver">
+        <svg viewBox="0 0 24 24" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="playlist-page-topbar-title" id="playlistPageTopTitle"></span>
+      <button class="playlist-page-more" id="btnDeletePlaylist" aria-label="Eliminar playlist">
+        <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </button>
+    </div>
+
+    <!-- Scrollable content -->
+    <div class="playlist-page-scroll">
+      <!-- Hero -->
+      <div class="playlist-page-hero">
+        <div class="playlist-detail-cover" id="playlistDetailCover"></div>
+        <div class="playlist-page-meta">
+          <p class="playlist-detail-label">PLAYLIST</p>
+          <h1 class="playlist-detail-name" id="playlistDetailName">—</h1>
+          <p class="playlist-detail-count" id="playlistDetailCount">0 canciones</p>
+        </div>
+      </div>
+
+      <!-- Actions row -->
+      <div class="playlist-page-actions">
+        <button class="playlist-page-shuffle-btn" id="btnShufflePlaylist" aria-label="Aleatorio">
+          <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+        </button>
+        <button class="playlist-page-play-btn" id="btnPlayPlaylist" aria-label="Reproducir">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+      </div>
+
+      <!-- Track list -->
+      <div class="playlist-detail-list" id="playlistDetailList"></div>
+    </div>
+  </div>
+
+  <!-- ══ MIX DETAIL PAGE ══ -->
+  <div class="playlist-page" id="mixDetailModal">
+    <div class="playlist-page-bg" id="mixDetailBg"></div>
+    <div class="playlist-page-topbar">
+      <button class="playlist-page-back" id="mixDetailClose" aria-label="Volver">
+        <svg viewBox="0 0 24 24" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="playlist-page-topbar-title" id="mixDetailTopTitle"></span>
+      <div style="width:36px"></div>
+    </div>
+    <div class="playlist-page-scroll">
+      <div class="playlist-page-hero">
+        <div class="playlist-detail-cover mix-detail-cover" id="mixDetailCover"></div>
+        <div class="playlist-page-meta">
+          <p class="playlist-detail-label mix-detail-type-label">MIX</p>
+          <h1 class="playlist-detail-name" id="mixDetailName">—</h1>
+          <p class="mix-detail-desc" id="mixDetailDesc"></p>
+          <p class="playlist-detail-count" id="mixDetailCount">0 canciones</p>
+        </div>
+      </div>
+      <div class="playlist-page-actions">
+        <button class="playlist-page-shuffle-btn" id="btnShuffleMix" aria-label="Aleatorio">
+          <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+        </button>
+        <button class="playlist-page-play-btn" id="btnPlayMix" aria-label="Reproducir todo">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+      </div>
+      <div class="playlist-detail-list" id="mixDetailList"></div>
+    </div>
+  </div>
+
+  <!-- ══ GENRE DETAIL PAGE (full-screen, same style as playlist-page) ══ -->
+  <div class="playlist-page" id="genreDetailModal">
+    <!-- Blurred bg -->
+    <div class="playlist-page-bg" id="genrePageBg"></div>
+
+    <!-- Top bar -->
+    <div class="playlist-page-topbar">
+      <button class="playlist-page-back" id="genreDetailClose" aria-label="Volver">
+        <svg viewBox="0 0 24 24" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="playlist-page-topbar-title" id="genrePageTopTitle"></span>
+      <div style="width:36px"></div><!-- spacer to balance flex -->
+    </div>
+
+    <!-- Scrollable content -->
+    <div class="playlist-page-scroll">
+      <!-- Hero -->
+      <div class="playlist-page-hero">
+        <div class="playlist-detail-cover" id="genreDetailCover"></div>
+        <div class="playlist-page-meta">
+          <p class="playlist-detail-label">CATEGORÍA</p>
+          <h1 class="playlist-detail-name" id="genreDetailName">—</h1>
+          <p class="playlist-detail-count" id="genreDetailCount">0 canciones</p>
+        </div>
+      </div>
+
+      <!-- Actions row -->
+      <div class="playlist-page-actions">
+        <button class="playlist-page-shuffle-btn" id="btnShuffleGenre" aria-label="Aleatorio">
+          <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+        </button>
+        <button class="playlist-page-play-btn" id="btnPlayGenre" aria-label="Reproducir">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+      </div>
+
+      <!-- Track list -->
+      <div class="playlist-detail-list" id="genreDetailList"></div>
+    </div>
+  </div>
+
+  <!-- ══ CREATE PLAYLIST MODAL ══ -->
+  <div class="modal-overlay" id="createPlaylistModal">
+    <div class="modal-card" style="max-width:380px">
+      <button class="modal-close" id="createPlaylistClose">✕</button>
+      <div class="modal-inner">
+        <h3 class="modal-title" style="margin-bottom:1.2rem">Nueva Playlist</h3>
+        <input type="text" id="playlistNameInput" placeholder="Nombre de la playlist…" class="playlist-name-input" maxlength="40" />
+        <button class="btn-hero" style="width:100%;justify-content:center;margin-top:1rem" id="confirmCreatePlaylist">Crear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADD TO PLAYLIST MODAL ══ -->
+  <div class="modal-overlay" id="addToPlaylistModal">
+    <div class="modal-card" style="max-width:380px">
+      <button class="modal-close" id="addToPlaylistClose">✕</button>
+      <div class="modal-inner">
+        <h3 class="modal-title" style="margin-bottom:1rem">Añadir a playlist</h3>
+        <div id="addToPlaylistList" class="add-to-playlist-list"></div>
+        <button class="btn-create-playlist" style="width:100%;justify-content:center;margin-top:.75rem" id="addNewPlaylistBtn">
+          <svg viewBox="0 0 24 24" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nueva playlist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ══ NOW PLAYING SHEET ══ -->
+  <div class="now-playing-sheet" id="nowPlayingSheet" role="dialog" aria-label="Reproduciendo ahora">
+    <div class="sheet-bg-blur" id="sheetBgBlur"></div>
+    <div class="sheet-handle-wrap">
+      <div class="sheet-handle"></div>
+    </div>
+    <div class="sheet-top-row">
+      <button class="sheet-close-btn" id="sheetClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <span class="sheet-top-label">Reproduciendo ahora</span>
+      <button class="sheet-queue-btn" id="sheetQueueBtn" aria-label="Cola">
+        <svg viewBox="0 0 24 24" width="20" height="20"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-cover-wrap">
+      <img class="sheet-cover" id="sheetCover" src="" alt="" />
+    </div>
+    <div class="sheet-info">
+      <div class="sheet-text">
+        <p class="sheet-category" id="sheetCategory"></p>
+        <h2 class="sheet-title" id="sheetTitle">—</h2>
+        <p class="sheet-artist" id="sheetArtist">—</p>
+      </div>
+      <div class="sheet-info-actions">
+        <button class="sheet-heart" id="sheetHeart" aria-label="Me gusta">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="sheet-add-menu-btn" id="sheetAddMenu" aria-label="Más opciones">
+          <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="5" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sheet-progress-wrap">
+      <div class="sheet-bar" id="sheetBar" role="slider" aria-label="Progreso">
+        <div class="sheet-fill" id="sheetFill"></div>
+        <div class="sheet-thumb" id="sheetThumb"></div>
+      </div>
+      <div class="sheet-times">
+        <span id="sheetCurrent">0:00</span>
+        <span id="sheetDuration">0:00</span>
+      </div>
+    </div>
+    <div class="sheet-controls">
+      <button class="sheet-ctrl-btn" id="sheetShuffle" aria-label="Aleatorio">
+        <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+      </button>
+      <button class="sheet-ctrl-btn sheet-skip" id="sheetPrev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="3" height="16"/></svg>
+      </button>
+      <button class="sheet-play-btn" id="sheetPlay" aria-label="Play/Pause">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:none"><rect x="6" y="3" width="4" height="18"/><rect x="14" y="3" width="4" height="18"/></svg>
+      </button>
+      <button class="sheet-ctrl-btn sheet-skip" id="sheetNext" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,20 15,12 5,4"/><rect x="16" y="4" width="3" height="16"/></svg>
+      </button>
+      <button class="sheet-ctrl-btn" id="sheetRepeat" aria-label="Repetir">
+        <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+    <!-- Volume wrap hidden per design (JS still works via hidden element) -->
+    <div class="sheet-volume-wrap" style="display:none" aria-hidden="true">
+      <svg viewBox="0 0 24 24" class="vol-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
+      <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1" aria-label="Volumen" />
+      <svg viewBox="0 0 24 24" class="vol-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+    </div>
+    <audio id="mainAudio" preload="metadata"></audio>
+  </div>
+
+  <!-- ══ QUEUE PANEL — DROPLY PREMIUM ══ -->
+  <div class="queue-panel" id="queuePanel" role="complementary" aria-label="Cola de reproducción">
+    <!-- Ambient glow bg -->
+    <div class="queue-ambient" id="queueAmbient"></div>
+
+    <!-- Header -->
+    <div class="queue-panel-header">
+      <button class="queue-close-btn" id="queueCloseBtn" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <h3 class="queue-panel-title">Cola de reproducción</h3>
+      <button class="queue-clear-btn" id="queueClearBtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        Vaciar
+      </button>
+    </div>
+
+    <!-- Now Playing card -->
+    <div class="queue-now-playing" id="queueNowPlaying"></div>
+
+    <!-- Queue list -->
+    <div class="queue-list-wrap">
+      <div class="queue-section-header" id="queueNextLabel" style="display:none">
+        <span class="queue-section-label">A continuación</span>
+        <span class="queue-count-badge" id="queueCountBadge">0</span>
+      </div>
+      <div class="queue-list" id="queueList"></div>
+      <!-- Infinite queue indicator -->
+      <div class="queue-infinite-hint" id="queueInfiniteHint" style="display:none">
+        <div class="queue-infinite-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z" opacity=".3"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <span>Cola infinita activa · generando similares…</span>
+      </div>
+    </div>
+  </div>
+  <div class="queue-overlay" id="queueOverlay"></div>
+
+  <!-- ══ TRACK CONTEXT MENU ══ -->
+  <div class="context-menu" id="contextMenu" role="menu">
+    <button class="ctx-item" id="ctxPlayNow" role="menuitem">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+      Reproducir ahora
+    </button>
+    <button class="ctx-item" id="ctxAddQueue" role="menuitem">
+      <svg viewBox="0 0 24 24" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Añadir a la cola
+    </button>
+    <button class="ctx-item" id="ctxAddPlaylist" role="menuitem">
+      <svg viewBox="0 0 24 24" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>
+      Añadir a playlist
+    </button>
+    <button class="ctx-item" id="ctxLike" role="menuitem">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Me gusta
+    </button>
+  </div>
+
+  <!-- ══ MINI PLAYER ══ -->
+  <div class="mini-player" id="miniPlayer" role="region" aria-label="Reproductor">
+    <div class="mini-player-inner" id="miniPlayerExpand">
+      <div class="mini-cover">
+        <img id="miniCover" src="" alt="" />
+      </div>
+      <div class="mini-info">
+        <span class="mini-title" id="miniTitle">—</span>
+        <span class="mini-artist" id="miniArtist">—</span>
+      </div>
+      <div class="mini-progress-line">
+        <div class="mini-progress-fill" id="miniProgressFill"></div>
+      </div>
+    </div>
+    <div class="mini-controls">
+      <button class="mini-ctrl" id="miniPlay" aria-label="Play/Pause">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:none"><rect x="6" y="3" width="4" height="18"/><rect x="14" y="3" width="4" height="18"/></svg>
+      </button>
+      <button class="mini-ctrl" id="miniNext" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5,20 15,12 5,4"/><rect x="16" y="4" width="3" height="16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ BOTTOM NAV ══ -->
+  <nav class="bottom-nav" id="bottomNav" aria-label="Navegación principal">
+    <div class="bnav-glass-slider" id="bnavGlassSlider"></div>
+    <button class="bnav-btn active" data-page="pageHome" aria-label="Inicio">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Inicio</span>
+    </button>
+    <button class="bnav-btn" data-page="pageSearch" aria-label="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      <span>Buscar</span>
+    </button>
+    <button class="bnav-btn" data-page="pageFavoritos" aria-label="Favoritos">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Likes</span>
+    </button>
+    <button class="bnav-btn" data-page="pagePlaylists" aria-label="Playlists">
+      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <span>Playlists</span>
+    </button>
+    <button class="bnav-btn" data-page="pageMixes" aria-label="Mixes">
+      <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      <span>Mixes</span>
+    </button>
+  </nav>
+
+
+  <!-- ══ CHANGELOG MODAL ══ -->
+  <div class="changelog-modal" id="changelogModal" role="dialog" aria-modal="true" aria-label="Novedades">
+    <div class="changelog-card">
+      <div class="changelog-header">
+        <span class="cl-emoji" id="clEmoji">✨</span>
+        <div class="changelog-header-text">
+          <h2 class="cl-title" id="clTitle">Novedades</h2>
+          <div class="cl-meta">
+            <span class="cl-version" id="clVersion"></span>
+            <span class="cl-dot">·</span>
+            <span class="cl-date" id="clDate"></span>
+          </div>
+        </div>
+      </div>
+      <ul class="cl-list" id="clList"></ul>
+      <button class="cl-close-btn" id="clClose">¡Entendido!</button>
+    </div>
+  </div>
+
+
+  <!-- ══ PWA INSTALL PROMPT ══ -->
+  <div class="pwa-install-banner" id="pwaInstallBanner" aria-live="polite">
+    <div class="pwa-install-inner">
+      <div class="pwa-install-icon">
+        <img src="icons/icon-96.png" alt="DROPLY" width="40" height="40" />
+      </div>
+      <div class="pwa-install-text">
+        <span class="pwa-install-title">Instalar DROPLY</span>
+        <span class="pwa-install-sub">Disponemos de una App. Añadenos a tu pantalla de inicio</span>
+      </div>
+      <div class="pwa-install-actions">
+        <button class="pwa-install-dismiss" id="pwaInstallDismiss" aria-label="Cerrar">✕</button>
+        <button class="pwa-install-btn" id="pwaInstallBtn">Instalar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TRACK CONTEXT BOTTOM SHEET ══ -->
+  <div class="ctx-sheet-overlay" id="ctxSheetOverlay"></div>
+  <div class="ctx-sheet" id="ctxSheet" role="dialog" aria-modal="true" aria-label="Opciones de canción">
+    <div class="ctx-sheet-handle-wrap">
+      <div class="ctx-sheet-handle"></div>
+    </div>
+    <div class="ctx-sheet-track-info" id="ctxSheetTrackInfo">
+      <div class="ctx-sheet-cover-wrap">
+        <img class="ctx-sheet-cover" id="ctxSheetCover" src="" alt="" />
+      </div>
+      <div class="ctx-sheet-meta">
+        <div class="ctx-sheet-title" id="ctxSheetTitle"></div>
+        <div class="ctx-sheet-artist" id="ctxSheetArtist"></div>
+      </div>
+    </div>
+    <div class="ctx-sheet-divider"></div>
+    <div class="ctx-sheet-actions">
+      <button class="ctx-sheet-item" id="ctxSheetPlayNow">
+        <span class="ctx-sheet-item-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" style="fill:currentColor;stroke:none"><polygon points="5,3 19,12 5,21"/></svg>
+        </span>
+        <span class="ctx-sheet-item-label">Reproducir ahora</span>
+      </button>
+      <button class="ctx-sheet-item" id="ctxSheetAddQueue">
+        <span class="ctx-sheet-item-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3.5" y1="18" x2="3.5" y2="18" stroke-width="2.5" stroke-linecap="round"/><line x1="3.5" y1="12" x2="3.5" y2="12" stroke-width="2.5" stroke-linecap="round"/><line x1="3.5" y1="6" x2="3.5" y2="6" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="15" x2="18" y2="21"/><line x1="15" y1="18" x2="21" y2="18"/></svg>
+        </span>
+        <span class="ctx-sheet-item-label">Añadir a la cola</span>
+      </button>
+      <button class="ctx-sheet-item" id="ctxSheetAddPlaylist">
+        <span class="ctx-sheet-item-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M21 15.9A5 5 0 1 0 15 21"/><path d="M21 8H9M21 12H9M14 16H9"/><circle cx="18" cy="18" r="3"/><line x1="18" y1="15" x2="18" y2="21"/><line x1="15" y1="18" x2="21" y2="18"/></svg>
+        </span>
+        <span class="ctx-sheet-item-label">Añadir a playlist</span>
+      </button>
+      <button class="ctx-sheet-item" id="ctxSheetLike">
+        <span class="ctx-sheet-item-icon" id="ctxSheetLikeIcon">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </span>
+        <span class="ctx-sheet-item-label" id="ctxSheetLikeLabel">Me gusta</span>
+      </button>
+      <button class="ctx-sheet-item" id="ctxSheetOffline">
+        <span class="ctx-sheet-item-icon" id="ctxSheetOfflineIcon">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </span>
+        <span class="ctx-sheet-item-label" id="ctxSheetOfflineLabel">Guardar sin conexión</span>
+      </button>
+    </div>
+    <div class="ctx-sheet-cancel-wrap">
+      <button class="ctx-sheet-cancel" id="ctxSheetCancel">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ══ PWA UPDATE TOAST ══ -->
+  <div class="pwa-update-toast" id="pwaUpdateToast">
+    <span class="pwa-update-text">Hay una nueva versión disponible, desea actualizar?</span>
+    <button class="pwa-update-btn" id="pwaUpdateBtn">Actualizar</button>
+  </div>
+
+  <!-- ══ PWA REGISTER SW ══ -->
+  <script>
+  (function() {
+    /* ── Service Worker registration ── */
+    /* Skip SW registration when opened locally via file:// (no HTTPS origin) */
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => {
+            console.info('[DROPLY PWA] SW registrado:', reg.scope);
+
+            /* Detectar actualización disponible */
+            reg.addEventListener('updatefound', () => {
+              const newWorker = reg.installing;
+              if (!newWorker) return;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  showUpdateToast(newWorker);
+                }
+              });
+            });
+
+            /* Forzar activación inmediata si hay un SW en espera */
+            if (reg.waiting) {
+              showUpdateToast(reg.waiting);
+            }
+          })
+          .catch(err => console.warn('[DROPLY PWA] SW error:', err));
+
+        /* Manejar actualización cuando se activa */
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) { refreshing = true; location.reload(); }
+        });
+      });
+    }
+
+    /* ── Install Prompt ── */
+    let deferredPrompt = null;
+    const banner    = document.getElementById('pwaInstallBanner');
+    const installBtn = document.getElementById('pwaInstallBtn');
+    const dismissBtn = document.getElementById('pwaInstallDismiss');
+    const DISMISSED_KEY = 'droply_pwa_dismissed';
+
+    /* Exponer para uso desde bootPremium si es necesario */
+    window._droplyInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      window._droplyInstallPrompt = e;
+      console.info('[DROPLY PWA] beforeinstallprompt capturado');
+
+      /* No mostrar si ya fue descartado hace menos de 7 días */
+      try {
+        const dismissed = localStorage.getItem(DISMISSED_KEY);
+        if (dismissed && (Date.now() - parseInt(dismissed)) < 7 * 24 * 60 * 60 * 1000) return;
+      } catch(e) {}
+
+      /* Mostrar con delay para que la app cargue */
+      setTimeout(() => banner && banner.classList.add('visible'), 2500);
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        banner && banner.classList.remove('visible');
+        try {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.info('[DROPLY PWA] Install outcome:', outcome);
+        } catch(err) {
+          console.warn('[DROPLY PWA] prompt error:', err);
+        }
+        deferredPrompt = null;
+        window._droplyInstallPrompt = null;
+      });
+    }
+
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', () => {
+        banner && banner.classList.remove('visible');
+        try { localStorage.setItem(DISMISSED_KEY, Date.now().toString()); } catch(e) {}
+      });
+    }
+
+    /* Ocultar banner si ya está instalada */
+    window.addEventListener('appinstalled', () => {
+      banner && banner.classList.remove('visible');
+      deferredPrompt = null;
+      window._droplyInstallPrompt = null;
+      console.info('[DROPLY PWA] App instalada!');
+    });
+
+    /* ── Update Toast ── */
+    const updateToast = document.getElementById('pwaUpdateToast');
+    const updateBtn   = document.getElementById('pwaUpdateBtn');
+    let pendingWorker = null;
+
+    function showUpdateToast(worker) {
+      pendingWorker = worker;
+      updateToast && updateToast.classList.add('visible');
+    }
+
+    if (updateBtn) {
+      updateBtn.addEventListener('click', () => {
+        if (pendingWorker) pendingWorker.postMessage({ type: 'SKIP_WAITING' });
+        updateToast && updateToast.classList.remove('visible');
+      });
+    }
+
+    /* ── Standalone detection ── */
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      document.documentElement.classList.add('is-pwa');
+      console.info('[DROPLY PWA] Running as installed PWA');
+    }
+  })();
+  </script>
+
+  <script src="script.js"></script>
+  <script src="youtube.js"></script>
+  <script src="crossfade.js"></script>
+  <script src="radio.js"></script>
+  
+</body>
+</html>

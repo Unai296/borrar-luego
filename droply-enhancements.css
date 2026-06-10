@@ -1,0 +1,398 @@
+/* ═══════════════════════════════════════════════════════════
+   DROPLY — droply-enhancements.css  v1.0
+   Mejoras visuales premium — añadir DESPUÉS de style.css
+
+   Incluir en index.html:
+     <link rel="stylesheet" href="droply-enhancements.css" />
+   (después de la línea con style.css)
+
+   Cubre:
+   · Animación vinyl del cover del reproductor
+   · Transición track-change del cover (pop/bloom)
+   · Cover del mini player con beat pulse
+   · Barra de progreso con glow dinámico
+   · Controles con estado active mejorado
+   · Like heart animation
+   · Home section cards con hover 3D lift
+   · Queue items con entrada animada
+   · Ambient glow dinámico del reproductor
+═══════════════════════════════════════════════════════════ */
+
+/* ── 1. Cover del reproductor expandido ─────────────────── */
+
+/* Efecto vinyl: el cover gira suavemente cuando reproduce */
+.sheet-cover.playing {
+  animation: vinylSpin 22s linear infinite;
+  transform: scale(1.04) !important;
+  box-shadow:
+    0 36px 96px rgba(0,0,0,.75),
+    0 10px 44px var(--accent-glow),
+    0 0 0 6px rgba(255,255,255,.04);
+}
+
+/* Sin animación al pausar */
+.sheet-cover:not(.playing) {
+  animation: none;
+  transform: scale(1) !important;
+}
+
+/* Animación de entrada al cambiar track */
+.sheet-cover.track-change {
+  animation: coverBloom .5s cubic-bezier(.34,1.56,.64,1) both !important;
+}
+
+@keyframes vinylSpin {
+  from { transform: scale(1.04) rotate(0deg); }
+  to   { transform: scale(1.04) rotate(360deg); }
+}
+
+@keyframes coverBloom {
+  0%   {
+    transform: scale(.84);
+    opacity: .5;
+    filter: blur(8px) saturate(0.4);
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  }
+  55%  {
+    transform: scale(1.06);
+    opacity: 1;
+    filter: blur(0) saturate(1.3);
+    box-shadow: 0 40px 100px rgba(0,0,0,.8), 0 12px 48px var(--accent-glow);
+  }
+  100% {
+    transform: scale(1.04);
+    opacity: 1;
+    filter: blur(0) saturate(1);
+  }
+}
+
+/* ── 2. Cover wrap con reflejo sutil ────────────────────── */
+.sheet-cover-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Sombra/reflejo debajo del cover */
+.sheet-cover-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 24px;
+  background: radial-gradient(ellipse at center, rgba(139,92,246,.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(8px);
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+
+.sheet-cover.playing ~ .sheet-cover-wrap::after,
+.sheet-cover-wrap:has(.sheet-cover.playing)::after {
+  opacity: 1;
+}
+
+/* ── 3. Mini player cover beat ───────────────────────────── */
+.mini-cover {
+  position: relative;
+  overflow: visible !important;
+}
+
+.mini-cover img.playing-beat {
+  animation: miniCoverBeat .55s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes miniCoverBeat {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12); }
+  70%  { transform: scale(.97); }
+  100% { transform: scale(1); }
+}
+
+/* Glow en el mini cover cuando está reproduciendo */
+.mini-player.playing .mini-cover img {
+  box-shadow: 0 4px 16px rgba(139,92,246,.4);
+}
+
+/* ── 4. Barra de progreso con glow ──────────────────────── */
+.sheet-fill {
+  background: linear-gradient(90deg, var(--accent-dk), var(--accent), var(--accent-lt));
+  background-size: 200% 100%;
+  animation: progressGlow 2s linear infinite;
+  position: relative;
+}
+
+.sheet-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-lt);
+  box-shadow: 0 0 8px 3px rgba(167,139,250,.5);
+  pointer-events: none;
+}
+
+@keyframes progressGlow {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* ── 5. Thumb del progreso mejorado ─────────────────────── */
+.sheet-thumb {
+  background: white !important;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.2), 0 2px 8px rgba(0,0,0,.5) !important;
+  transition: transform .15s var(--ease-spring), box-shadow .15s ease !important;
+}
+
+.sheet-bar:active .sheet-thumb,
+.sheet-bar:hover .sheet-thumb {
+  transform: translateX(-50%) scale(1.4) !important;
+  box-shadow: 0 0 0 5px rgba(139,92,246,.3), 0 2px 12px rgba(0,0,0,.5) !important;
+}
+
+/* ── 6. Botones de control con haptic visual ─────────────── */
+.sheet-play-btn {
+  transition:
+    transform .15s cubic-bezier(.34,1.56,.64,1),
+    background .2s ease,
+    box-shadow .2s ease !important;
+}
+
+.sheet-play-btn:active {
+  transform: scale(.91) !important;
+}
+
+.sheet-ctrl-btn {
+  transition: transform .15s var(--ease-spring), color .15s ease, opacity .15s !important;
+}
+
+.sheet-ctrl-btn:active {
+  transform: scale(.84) !important;
+}
+
+/* Estado activo (shuffle/repeat on) con glow */
+.sheet-ctrl-btn.active {
+  color: var(--accent) !important;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+
+/* ── 7. Heart animation al dar like ─────────────────────── */
+.sheet-heart {
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), color .2s !important;
+}
+
+.sheet-heart.liked {
+  animation: heartBeat .35s cubic-bezier(.34,1.56,.64,1);
+  color: #e94f4f !important;
+}
+
+@keyframes heartBeat {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(.9); }
+  100% { transform: scale(1); }
+}
+
+/* ── 8. Home cards con hover 3D lift ─────────────────────── */
+@media (hover: hover) {
+  .home-track-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(0,0,0,.5);
+    transition: transform .25s var(--ease-spring), box-shadow .25s ease;
+  }
+
+  .home-artist-card:hover .home-artist-img-wrap img {
+    transform: scale(1.06);
+  }
+
+  .mix-card:hover {
+    transform: translateY(-3px);
+    transition: transform .2s var(--ease-spring);
+  }
+}
+
+/* ── 9. Queue items con entrada animada ─────────────────── */
+.queue-item.queue-item-new {
+  animation: queueItemSlide .3s var(--ease-out) both;
+}
+
+@keyframes queueItemSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-16px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ── 10. Ambient glow dinámico del reproductor ──────────── */
+/* El sheet-bg-blur ya existe pero añadimos una capa extra  */
+.now-playing-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 40% at 50% -10%,
+    rgba(139,92,246,.12) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity .6s ease;
+}
+
+/* ── 11. Track cards playing state mejorado ─────────────── */
+.media-card.is-playing .card-cover img {
+  filter: brightness(1.1) saturate(1.2);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.library-item.playing .library-thumb img {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* ── 12. Barra de progreso del mini player ──────────────── */
+.mini-progress-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(255,255,255,.06);
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dk), var(--accent-lt));
+  border-radius: 99px;
+  transition: width .5s linear;
+}
+
+/* ── 13. Skeleton loading para covers ───────────────────── */
+.sheet-cover[src=""],
+.sheet-cover:not([src]) {
+  background: linear-gradient(110deg, var(--bg3) 30%, var(--bg4) 50%, var(--bg3) 70%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+}
+
+@keyframes skeletonShimmer {
+  0%   { background-position: 200% 0%; }
+  100% { background-position: -200% 0%; }
+}
+
+/* ── 14. Toast mejorado ─────────────────────────────────── */
+.toast {
+  backdrop-filter: blur(28px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
+}
+
+/* ── 15. Scroll de páginas con fade top/bottom ──────────── */
+.home-scroll {
+  position: relative;
+}
+
+/* ── 16. Sheet handle con glow al arrastrar ─────────────── */
+.sheet-handle {
+  transition: background .2s ease, transform .2s ease;
+}
+
+.now-playing-sheet:has(.sheet-handle:active) .sheet-handle,
+.sheet-handle-wrap:active .sheet-handle {
+  background: var(--accent) !important;
+  transform: scaleX(1.5);
+}
+
+/* ── 17. Página de detalle — topbar blur mejorado ────────── */
+.playlist-page-topbar {
+  backdrop-filter: blur(28px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.5) !important;
+}
+
+/* ── 18. Género pills con hover saturado ─────────────────── */
+.genre-pill {
+  transition:
+    transform .2s var(--ease-spring),
+    box-shadow .2s ease,
+    filter .2s ease !important;
+}
+.genre-pill:hover {
+  transform: scale(1.04) translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4) !important;
+  filter: brightness(1.1) !important;
+}
+.genre-pill:active {
+  transform: scale(.96) !important;
+}
+
+/* ── 19. BottomNav glass slider glow ────────────────────── */
+.bnav-glass-slider {
+  box-shadow:
+    0 2px 16px rgba(139,92,246,.15),
+    0 0 0 1px rgba(139,92,246,.1) !important;
+}
+
+/* ── 20. Playlist detail items — fila jugosa ────────────── */
+.playlist-detail-item {
+  transition:
+    background .15s ease,
+    transform .15s var(--ease-spring) !important;
+}
+.playlist-detail-item:active {
+  background: rgba(255,255,255,.06) !important;
+  transform: scale(.99) !important;
+}
+
+/* ── 21. Search input focus glow ────────────────────────── */
+.search-page-input:focus {
+  border-color: rgba(139,92,246,.5) !important;
+  box-shadow: 0 0 0 3px rgba(139,92,246,.12) !important;
+  outline: none;
+}
+
+/* ── 22. Modal cards con entrada animada ─────────────────── */
+.modal-card {
+  animation: modalCardIn .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes modalCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── 23. Queue now-playing bars animadas ─────────────────── */
+.queue-now-bar {
+  background: var(--accent) !important;
+}
+
+/* ── 24. Media reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sheet-cover.playing {
+    animation: none !important;
+    transform: scale(1.04) !important;
+  }
+  .sheet-cover.track-change {
+    animation: none !important;
+  }
+  .sheet-fill {
+    animation: none !important;
+  }
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
